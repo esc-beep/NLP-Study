@@ -9,6 +9,7 @@
 -   **사례 (Instance):** 실행 중인 텍스트에서 해당 유형이 등장한 횟수, 대소문자를 다르게 처리할지 결정이 필요함
 
 구두점을 고려하지 않는다면, 14 types와 16 instances로 셀 수 있다.
+
 하지만 고려해야 할 점들이 더 있다.
 
 -   구어의 경우 "uh", "um"과 같은 멈춤(Filled pauses)이나 "main-" 같은 단편(Fragments)과 같은 말더듬(Disfluencies)을 단어로 간주할 것인지 결정해야 할 것이다.
@@ -19,7 +20,7 @@
 
 이유는 간단하다. 단어의 양이 매우 많기 때문이다.
 
-[##_Image|kage@Lp2X4/btsQ9uanVsU/AAAAAAAAAAAAAAAAAAAAAGWpDZAQ-ij03HfR52Ad8qjhWc2Uuxp6-6sheaS3pzIe/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&amp;expires=1761922799&amp;allow_ip=&amp;allow_referer=&amp;signature=MIuhRuzP1bbgh3M5aNhOYeEeXpQ%3D|CDM|1.3|{"originWidth":767,"originHeight":550,"style":"alignCenter","width":586,"height":420,"caption":"https://www.youtube.com/watch?v=QwV-aCaWKq8"}_##]
+![heap's law](heaps-law.png)
 
 **힙스의 법칙(Heaps' Law)**이란 텍스트의 길이가 길어질수록 어휘 사전의 크기도 꾸준히 증가한다는 의미이다.
 따라서 아무리 큰 데이터를 사용해도 모델이 모르는 '미등록 단어(Unknown Words)'가 항상 존재하게 된다.
@@ -27,23 +28,19 @@
 ## **1.3. 토큰화 (Tokenization)**
 
 이 문제를 해결하기 위해 현대 NLP에서는 단어를 그대로 사용하지 않고, 더 작은 단위인 **서브워드(Subword)**로 쪼개서 사용한다.
-
 subword에 가장 가꾸은 개념은 형태소(Morpheme)이다.
-
 형태소에는 다음과 같은 것들이 포함된다.
 
 -   자체로 의미를 갖는 형태소
 -   굴절 형태소 (Inflectional Morphemes): 단어의 문법적 기능, 과거형 -ed나 복수형 -s
 -   파생 형태소 (Derivational Morphemes): 단어의 품사나 의미 변환, -ful이나 -ly
 
-[##_Image|kage@cOVvft/btsQ9R4oO0L/AAAAAAAAAAAAAAAAAAAAABZh68nwETo1Yx7rbSBS_aMWfjTGwbWleyDADQpHzCXu/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&amp;expires=1761922799&amp;allow_ip=&amp;allow_referer=&amp;signature=htaoWj%2F4Hpc8O5vUHX7v%2FKD%2BxmE%3D|CDM|1.3|{"originWidth":806,"originHeight":288,"style":"alignCenter","width":649,"height":232,"caption":"morphemes per word"}_##]
+![Morphemes per Word](morphemes-per-word.png)
 
 언어마다 단어 하나에 포함된 형태소의 평균 개수는 다르다.
-
 분석어(Analytic)에 가까울수록 하나의 형태소가 단어를 이룰 확률이 높고, 다중종합어(Polysynthetic)에 가까울수록 많은 형태소가 합쳐져 하나의 단어를 이룬다.
 
 문장을 토큰이라는 일관된 단위로 나누는 과정을 **토큰화(Tokenization)**이라고 한다.
-
 토큰화는 시스템 간의 비교를 용이하게 하고, 미등록 단어 문제를 해결하기 위해서 필요하다.
 
 토큰화를 하는 방식은 다음과 같다.
@@ -55,7 +52,6 @@ subword에 가장 가꾸은 개념은 형태소(Morpheme)이다.
 ### **1.3.2. 규칙 기반 토큰화 (Rule-based Tokenization)**
 
 단순히 공백만으로는 부족한 경우가 많아, 특정 규칙을 정해 토큰화를 수행하는 방식이다.
-
 하지만 다음과 같은 상황에서 문제가 발생할 수 있다.
 
 -   **문장 부호 처리:** Ph.D., AT&T처럼 점(.)이나 특수기호가 단어의 일부인 경우
@@ -64,8 +60,7 @@ subword에 가장 가꾸은 개념은 형태소(Morpheme)이다.
 
 ### **1.3.3. 펜 트리뱅크 토큰화 (Penn Treebank Tokenization)**
 
-**NLP의 표준 규칙 기반 토큰화 방식** 중 하나이다.
-
+NLP의 표준 규칙 기반 토큰화 방식 중 하나이다.
 주요 규칙은 다음과 같다.
 
 -   **축약어 분리:** don't는 do와 n't로, they'll은 they와 'll로 분리
@@ -82,7 +77,6 @@ subword에 가장 가꾸은 개념은 형태소(Morpheme)이다.
 -   형태소는 언어학적으로 정의하기가 매우 어려움
 
 따라서 NLP에서는 데이터 자체를 이용해 토큰화 규칙을 학습하는 방식을 사용한다.
-
 대표적인 알고리즘으로는 **BPE(Byte-Pair Encoding)**와 **Unigram Language Modeling**이 있다.
 
 ### **1.4.1 BPE**
@@ -94,7 +88,7 @@ BPE는 가장 자주 나오는 글자 쌍을 합쳐서 하나의 새로운 글�
 
 알고리즘의 pseudo code는 다음과 같다.
 
-[##_Image|kage@cr7UHV/btsQ8X46EWn/AAAAAAAAAAAAAAAAAAAAAAVjklugH2PdT5PkJ906v3LfpEiMSejC17rNjiRB25X4/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&amp;expires=1761922799&amp;allow_ip=&amp;allow_referer=&amp;signature=%2Bh%2BF5349qGuzfpktYzngl2ifcvI%3D|CDM|1.3|{"originWidth":926,"originHeight":334,"style":"alignCenter","width":726,"height":262}_##]
+![BPE pseudo code](bpe-pseudo-code.png)
 
 1.  모든 단어를 글자(character) 단위로 쪼갠다.
 2.  텍스트에서 가장 자주 등장하는 인접한 글자 쌍을 찾아 하나로 합친다.
@@ -106,7 +100,7 @@ BPE는 가장 자주 나오는 글자 쌍을 합쳐서 하나의 새로운 글�
 
 초기 상태는 다음과 같다.
 
-[##_Image|kage@t7glJ/btsQ9lEFwh8/AAAAAAAAAAAAAAAAAAAAAL0_kBbEqbG5vbxSpBDnh4xay2_Dn1PVZKGIZeh4LGf_/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&amp;expires=1761922799&amp;allow_ip=&amp;allow_referer=&amp;signature=XeLsHdstl5I4SACYihdDwlHzfqQ%3D|CDM|1.3|{"originWidth":640,"originHeight":172,"style":"alignCenter"}_##]
+![BPE](bpe.png)
 
 -   **1단계:** 가장 자주 등장하는 글자 쌍은 n과 e이다 (new에 2번, renew에 2번, 총 4번). 이 둘을 합쳐 ne라는 새로운 토큰을 만들고 사전에 추가한다.
 -   **2단계:** 가장 자주 등장하는 글자 쌍은 ne와 w이다 (총 4번). 이 둘을 합쳐 new라는 토큰을 만든다.
@@ -118,7 +112,6 @@ BPE는 여러 언어가 섞인 데이터를 학습할 수 있지만, 데이터�
 ## **1.5 한국어 자연어 처리**
 
 한국어는 영어와 달리 단어에 조사, 어미 등이 붙어 문법적 기능이 결정되는 교착어이다. (1.3의 morphemes per word에서 Polysynthetic에 가깝다는 뜻)
-
 단순히 띄어쓰기 단위(어절)로 나누는 것만으로는 부족하며, 의미를 가진 최소 단위인 **형태소**로 분해하는 과정이 필수적이다.
 
 형태소 분석기는 다음과 같은 방법론을 통해 개발된다.
@@ -128,19 +121,15 @@ BPE는 여러 언어가 섞인 데이터를 학습할 수 있지만, 데이터�
 -   **딥러닝 기반 분석:** 언어 모델을 학습하여 통계적으로 가장 그럴듯한 분석 결과를 내놓는 방식
 
 하지만 형태소 분석에는 미등록어 문제, 형태론적 중의성 문제가 발생한다.
-
 예를 들어, " 가시는"이라는 어절은 가시(명사) + 는(조사) 또는 가(다)(동사) + 시(선어말어미) + 는(어말어미)으로 해석될 수 있기 때문에 2개의 분석 결과 중 1개를 선택하기 모호하다.
 
 따라서 문장을 토큰화하기 전, 어디서부터 어디까지가 하나의 문장인지 나누는 **문장 분리(Sentence Segmentation)** 과정이 필요하다.
-
 !나 ?는 문장의 끝을 명확히 나타내지만, 마침표 . 는 문장의 끝일 수도 있고 , Dr.나 Inc. 같은 축약어의 일부일 수도 있으며 , 4.3이나 .02% 같은 숫자의 일부일 수도 있다.
-
 이를 해결하기 위해 보통 텍스트를 먼저 토큰화한 뒤, 규칙이나 머신러닝을 이용해 각 마침표가 단어의 일부인지, 문장의 경계인지 분류하는 방식을 사용한다.
 
 ## **1.6 Classic Parsing**
 
 과거의 파서들은 문법 규칙이 너무 엄격해서 약간만 복잡한 문장이 나와도 분석에 실패하는 경우가 많았다.(= coverage가 낮다)
-
 또한, 하나의 문장이 여러 구조로 해석될 때 어떤 것이 정답인지 선택할 방법이 없었다.
 
 아래와 같은 문장을 parsing한다고 생각해보자.
@@ -167,18 +156,16 @@ BPE는 여러 언어가 섞인 데이터를 학습할 수 있지만, 데이터�
 
 ### **1.7.1 구 구조 (Constituency / Phrase Structure)**
 
-[##_Image|kage@BdWy8/btsQ8UAy7nA/AAAAAAAAAAAAAAAAAAAAAOG3nkNpR7vOq_M5VAP3FXxixRO1QV7IactLVrE4n-En/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&amp;expires=1761922799&amp;allow_ip=&amp;allow_referer=&amp;signature=XWCVOOi5Yv6V8ODP5TZj2hMM7sg%3D|CDM|1.3|{"originWidth":258,"originHeight":249,"style":"alignCenter"}_##]
+![Phrase Structure](pharser-structure.png)
 
 단어들을 구(Phrase)라는 더 큰 덩어리로 묶어가는 계층적인 방식이다.
-
 예를 들어, Fed는 명사구(NP), raises interest rates는 동사구(VP)로 묶인다.
 
 ### **1.7.2 의존 구조 (Dependency Structure)**
 
-[##_Image|kage@pkpc6/btsQ9jz5Vok/AAAAAAAAAAAAAAAAAAAAAJ7yIxkUEd3ObB1Ui_I-BjapplPrQe9-SvbvLoTwsfXq/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&amp;expires=1761922799&amp;allow_ip=&amp;allow_referer=&amp;signature=bABb%2F2yONRuaq42y2smCO85%2Fvh0%3D|CDM|1.3|{"originWidth":872,"originHeight":205,"style":"alignCenter","width":630,"height":148}_##]
+![Dependency Structure](dependency-structure.png)
 
 단어들 간의 **수식 또는 의존 관계**를 화살표로 나타내는 방식이다.
-
 출발점은 동사로, 그 외 모든 요소(주어, 부사 등)는 동사에 의존적이다.
 
 ### **1.7.3 구 구조 분석 - 구문 구조 모호성**
@@ -191,7 +178,7 @@ BPE는 여러 언어가 섞인 데이터를 학습할 수 있지만, 데이터�
 
 다음과 같은 2가지 결과가 나올 수 있다.
 
-[##_ImageGrid|kage@dh05r7/btsQ7Nviumz/AAAAAAAAAAAAAAAAAAAAAG95yr3kgmAE1KhDquOXHU8LL3JM2HVYM1-7NkImum3d/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&amp;expires=1761922799&amp;allow_ip=&amp;allow_referer=&amp;signature=BOPrI0Un6zqojQ24Baz6fqEBqek%3D,kage@btZjVI/btsQ7PmnYZs/AAAAAAAAAAAAAAAAAAAAAF2PwlHEVk1c5nB1rbwAr4J-GPOyMj9060Ts41RKXLo7/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&amp;expires=1761922799&amp;allow_ip=&amp;allow_referer=&amp;signature=LlX9FNECymNuHEC2%2BW14AgyfwcY%3D|data-origin-width="671" data-origin-height="533" data-is-animation="false" width="303" height="241" style="width: 43.5226%; margin-right: 10px;" data-widthpercent="44.03" id="kEditorPhotosEditingImage-6",data-origin-width="416" data-origin-height="260" data-is-animation="false" style="width: 55.3146%;" data-widthpercent="55.97" id="kEditorPhotosEditingImage-7"|_##]
+![Attachment Ambiguity](attach-ambiguity.png)
 
 왼쪽 이미지와 같이 분석한다면 "나는 망원경을 든 남자를 보았다"라고 해석할 것이고, 오른쪽 이미지와 같이 분석한다면 "나는 망원경으로 남자를 보았다"라고 해석하는 **구문 구조 모호성(Attachment Ambiguity)이 발생**한다.
 
@@ -200,9 +187,7 @@ BPE는 여러 언어가 섞인 데이터를 학습할 수 있지만, 데이터�
 ## **1.8 파싱(Parsing)**
 
 **파싱(Parsing)**이란 주어진 문장이 어떤 문법 구조를 가지고 있는지 알아내기 위해, **문법 규칙을 거꾸로 적용해보는 과정**이다.
-
 이는 문법적으로 가능한 수많은 구조 중에서 올바른 구조를 찾아내는 일종의 탐색 문제와 같다.
-
 규칙에 맞게 문장을 만드는 것이 순방향이라면, 만들어진 문장에 적용된 규칙을 찾아내는 역방향이 파싱이다.
 
 ### **1.8.1 문맥 자유 문법(Context-Free Grammar, CFG)**
@@ -221,9 +206,7 @@ Grammar G로 language L을 생성한다.
 CFG 규칙만으로는 하나의 문장이 여러 개의 타당한 구조로 분석되는 모호성 문제가 해결되지 않는다.
 
 PCFG는 G = (T, N, S, R, P)로 표현된다.
-
 나머지 요소는 CFG와 동일하되, P(Probability)로 각 문법 규칙에 확률을 부여한다.
-
 파서는 가능한 모든 문장 구조를 만든 뒤 각 구조의 확률을 계산하여 가장 확률이 높은(그럴듯한) 구조를 최종 결과로 선택한다.
 
 ### **1.8.3 파서의 품질**

@@ -84,16 +84,16 @@ $P(I|s)$, 문장이 시작(&lt;s&gt;)된 후 'I'가 나올 확률을 계산해�
 
 실제 연구에 사용되었던 Berkeley Restaurant Project의 데이터를 통해 N-gram 모델의 확률을 계산해보자.
 
-![Raw bigram counts](raw-bigram-counts.png)
+![Raw bigram counts](raw-bigram-counts.png)<br>
 위의 이미지는 9,222개의 문장 데이터에서, 어떤 단어 뒤에 어떤 단어가 몇 번 나왔는지를 표로 정리한 것이다.
 가로줄(row)의 단어가 먼저 나오고, 세로줄(column)의 단어가 뒤따르는 경우의 횟수이다.
 
-![Raw bigram probabilities](raw-bigram-probabilities.png)
+![Raw bigram probabilities](raw-bigram-probabilities.png)<br>
 각 단어가 총 몇 번 등장했는지(unigram count)를 확인한 후, `바이그램 횟수 / 유니그램 횟수`로 계산하면 확률을 구할 수 있다.
 
 완성된 바이그램 확률표를 이용해 새로운 문장의 전체 확률을 계산할 수 있다. <br>
 "I want english food"의 확률을 계산하고 싶다면 연쇄 법칙을 이용해 다음과 같이 계산할 수 있다. <br>
-$P(<s> I want english food </s>)=P(I∣<s>)×P(want∣I)×P(english∣want)×P(food∣english)×P(</s>∣food)$
+$P(s I want english food /s)=P(I∣s)×P(want∣I)×P(english∣want)×P(food∣english)×P(/s∣food)$
 
 N-gram을 통해 다음과 같은 지식을 학습할 수 있다.
 - 문법 지식: 'want' 다음에는 'to'가 올 확률이 높다는 것을 학습함
@@ -163,7 +163,7 @@ __퍼플렉시티(Perplexity)__ 는 언어 모델이 얼마나 '당황하는지'
 문장의 확률을 그대로 사용하면 문장이 길어질수록 0과 1 사이의 확률값을 계속 곱하기 때문에 값이 너무 작아져서 비교하기 어렵다는 문제가 있다. <br>
 여러 값을 곱한 결과의 평균을 구할 때는 __기하 평균(Geometric Mean)__ 을 사용하며, N제곱근으로 계산할 수 있다. <br>
 
-![Perplexity](perplexity.png)
+![Perplexity](perplexity.png)<br>
 perplexity는 테스트 문장 전체 확률의 역수에, 문장의 총 단어 수(N)만큼 거듭제곱근을 취한 값이다. <br>
 기하 평균을 사용했기 때문에 perplexity를 통해 문장 길이에 상관없이 단어 하나당 평균적으로 얼마나 헷갈려 하는지를 측정할 수 있다. <br>
 
@@ -178,12 +178,12 @@ perplexity가 낮은 모델 B가 모델 A보다 선호된다. <br>
 모델이 실제로 어떻게 작동하는지 확인하기 위해서는 **샘플링**을 하는 것이 가장 확실하다.<br>
 그 예시 중 하나가 섀넌의 시각화 방법 (The Shannon Visualization Method)인데, 유니그램 모델의 경우에는 문맥을 고려하지 않기 때문에 단순히 단어들을 무작위로 나열한 것으로 보이지만, 바이그램 모델의 경우에는 바로 앞 단어 하나만 고려하기 때문에 짧은 구는 그럴듯하게 만들어낸다.
 
-![Sampling](sampling.png)
+![Sampling](sampling.png)<br>
 샘플링을 하는 방법은 간단하다. 0에서 1까지의 긴 막대에서, 각 단어는 확률만큼 막대의 길이를 나누어 차지한다.<br>
 컴퓨터는 0과 1 사이에서 무작위로 숫자 하나를 뽑는다. 만약 0.04라는 숫자가 뽑혔다면, 그 숫자가 속한 구간의 단어인 'the'가 선택되는 원리이다.<br>
 <br>
 
-![Bigram Sampling](bigram-sampling.png)
+![Bigram Sampling](bigram-sampling.png)<br>
 바이그램 문장 생성 과정도 비슷하다.
 1. 먼저 문장의 시작(<s>) 다음에 올 단어를 위의 방식으로 뽑는다. (예: 'I'가 뽑힘)
 2. 그다음, 'I' 다음에 올 단어들의 확률분포를 가지고 다시 단어를 뽑는다. (예: 'want'가 뽑힘)
@@ -200,7 +200,7 @@ perplexity가 낮은 모델 B가 모델 A보다 선호된다. <br>
 
 ## 2.9 Smoothing
 
-![Smoothing](smoothing.png)
+![Smoothing](smoothing.png)<br>
 0의 확률 방식을 해결하기 위한 아이디어가 __Smoothing__ 이다.<br>
 Smoothing은 훈련 데이터에서 자주 나왔던 단어들의 횟수를 조금 훔쳐서 한 번도 나오지 않았던 단어들에게 조금씩 나눠준다.<br>
 MLE는 N-gram에서 횟수를 세어 확률을 계산하는 방식이기 때문에 __'훈련 데이터'에 가장 잘 들어맞는 확률 추정치__ 이다. 따라서 훈련 데이터에만 너무 최적화되어 있기 때문에 훈련 데이터에 없던 단어가 테스트 데이터에 나오면 제대로 예측하지 못해 일반화 성능이 떨어진다. <br>
@@ -208,14 +208,14 @@ Smoothing은 확률을 재분배하기 때문에 훈련 데이터의 통계에�
 
 ### 2.9.1 Add-one Smoothing
 
-![Add-one Smoothing](smoothing-addone.png)
+![Add-one Smoothing](smoothing-addone.png)<br>
 가장 직관적으로 smoothing을 구현하는 방법이다. 라플라스(Laplace) 스무딩이라고도 부른다.<br>
 모든 N-gram의 횟수에 무조건 1을 더해주는 방식이다. 확률 P를  구할 때는 분자에는 +1을 하고, 분모에는 앞 단어의 총 횟수에 Vocabulary의 개수를 더해주어 구할 수 있다.<br>
 
-![Add-one Smoothing Example](smoothing-addone-example.png)
+![Add-one Smoothing Example](smoothing-addone-example.png)<br>
 왼쪽의 표는 훈련 데이터의 모든 바이그램 횟수에 1을 더한 것이고, 오른쪽의 표는 이를 통해 최종 확률을 계산한 것이다.<br>
 
-![Add-one Smoothing Result](smoothing-addone-result.png)
+![Add-one Smoothing Result](smoothing-addone-result.png)<br>
 위 표는 Laplace smoothing을 사용하지 않은 경우와 사용한 경우에 두 단어가 연달아 나올 확률을 나타내는 표이다.<br>
 해당 표에서는 0이었던 값(i to)이 0.64가 되었다는 것과 높은 횟수(i want)의 값이 827에서 529로 낮아진 **확률의 재분배**가 발생했음을 확인할 수 있다.<br>
 이는 자주 나왔던 단어들의 횟수를 조금 훔쳐서(827→529) 한 번도 나오지 않았던 단어들에게 조금씩 나눠주는(0→0.64) 과정이 일어난 것이다.<br>
@@ -235,7 +235,7 @@ __보간법(Interpolation)__ 은 backoff처럼 하나만 선택하는 것이 아
 
 ### 2.10.1 Interpolation
 
-![Interpolation](interpolation.png)
+![Interpolation](interpolation.png)<br>
 Interpolation을 계산하는 방식은 두 가지로 나뉜다.
 1. Simple interpolation: 단순 보간법, 가중치(람다)는 고정된 상수로, 항상 동일한 비율로 3-gram, 2-gram, 1-gram의 확률을 섞는다.
 2. Lambdas conditional on context: 문맥 의존적 보간법, 가중치(람다) 값은 함수로, 현재 문맥(= 앞의 두 단어)에 따라 달라진다.<br> <br>
@@ -252,7 +252,7 @@ Interpolation을 계산하는 방식은 두 가지로 나뉜다.
 3. 2-gram의 확률이 0이라면 1-gram(P(pahcakes))의 확률을 사용한다.<br>
 실제로는 단순히 낮은 단계의 확률을 그대로 쓰는 것이 아니라, 확률의 총합이 1을 넘지 않도록 할인(discount) 과정을 거친다.<br> <br>
 
-![Stupid Backoff](backoff.png)
+![Stupid Backoff](backoff.png)<br>
 할인 과정을 생략한 backoff 방식을 stupid backoff라고 한다.<br>
 1. 우리가 찾으려는 N-gram의 횟수가 0보다 크다면 표준적인 MLE 확률을 사용한다.
 2. 만약 N-gram의 횟수가 0이라면 한 단계 낮은 N-gram의 점수를 계산하고, 고정된 가중치를 곱한다.

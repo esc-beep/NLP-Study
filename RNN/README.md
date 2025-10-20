@@ -1,3 +1,5 @@
+# 3. Recurrent Neural Networks
+
 ## 3.1 인공 신경망
 
 <img width="300" height="300" alt="image" src="neural-network-unit.png" /><br>

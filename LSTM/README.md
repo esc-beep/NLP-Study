@@ -174,7 +174,7 @@ $$
 \mathbf{c}_i = f(\mathbf{h}_{1}^{e}, \dots, \mathbf{h}_{n}^{e}, \mathbf{h}_{i-1}^{d}) \\
 $$
 
-문맥 벡터 $\mathbf{c}_i$는 인코더의 모든 은닉 상태($\mathbf{h}_{1}^{e}, \dots, \mathbf{h}_{n}^{e}$)들의 가중 평균으로 계산되는 방식이다.
+문맥 벡터 $c_i$ 는 인코더의 모든 은닉 상태 $\mathbf{h}_{1}^{e}, \dots, \mathbf{h}_{n}^{e}$ 들의 가중 평균으로 계산되는 방식이다.
 
 <img width="300" height="180" alt="image" src="attention.png" /><br>
 
@@ -182,13 +182,16 @@ $$
 \mathbf{h}_i^{d} = g(\hat{\mathbf{y}}_{i-1}, \mathbf{h}_{i-1}^{d}, \mathbf{c}_i) \\
 $$
 
-현재 시점의 디코더 은닉 상태($\mathbf{h}_i^{d}$)는 이전 출력 단어의 임베딩($\hat{\mathbf{y}}_{i-1}$), 이전 시점의 디코더 은닉 상태($\mathbf{h}_{i-1}^{d}$), $i$ 시점의 문맥 벡터($\mathbf{c}_i$)를 순환 신경망이 연산하여 만들어진다.
+현재 시점의 디코더 은닉 상태 $\mathbf{h}_i^{d}$ 는 이전 출력 단어의 임베딩 $\hat{\mathbf{y}}_{i-1}$ , 이전 시점의 디코더 은닉 상태 $\mathbf{h}_{i-1}^{d}$ , $i$ 시점의 문맥 벡터 $\mathbf{c}_i$ 를 순환 신경망이 연산하여 만들어진다.
 
 <br>
 
 ## 4.6.1 Score
 
-$score(h_{i-1}^d,h_j^e)=h_{i-1}^d \cdot h_j^e$ <br>
+$$
+score(h_{i-1}^d,h_j^e)=h_{i-1}^d \cdot h_j^e
+$$
+
 디코더의 이전 상태 $\mathbf{h}_{i-1}^d$와 인코더의 모든 상태 $\mathbf{h}_j^e$를 비교하여 점수를 계산해, 얼마나 관련성이 높은지를 나타내는 점수를 만든다.
 
 ## 4.6.2 Normalize
@@ -196,6 +199,7 @@ $score(h_{i-1}^d,h_j^e)=h_{i-1}^d \cdot h_j^e$ <br>
 $$
 \alpha_{ij} = \text{softmax}(\text{score}(h_{i-1}^d, h_j^e)) \\
 $$
+
 $\text{Softmax}$ 함수를 사용하여 계산된 점수들을 정규화하여 확률적인 가중치로 변환한다.
 
 ## 4.6.3 Weight
@@ -203,6 +207,7 @@ $\text{Softmax}$ 함수를 사용하여 계산된 점수들을 정규화하여 �
 $$
 c_i = \sum_j \alpha_{ij} \, h_j^e
 $$
+
 인코더의 모든 은닉 상태 $\mathbf{h}_j^e$에 해당 단어의 가중치 $\alpha_{ij}$를 곱한 후 모두 더한다. <br>
 이렇게 만들어진 $\mathbf{c}_i$는 입력 문장 전체를 아우르지만, 현재 번역에 가장 중요하다고 판단된 정보들만 강조된 맞춤형 벡터가 된다. <br>
 
@@ -213,4 +218,4 @@ $$
 인코더의 hidden layer에서 각각의 score를 계산하고 이를 normalize하여 weight를 얻은 뒤, 이 weight로 가중합을 구해 문맥 벡터 $\mathbf{c}_i$를 생성한다.  <br>
 
 디코더에서는 attention 매커니즘을 통해 현재 시점의 디코더 은닉 상태($\mathbf{h}_i^{d}$)를 계산한다.  <br>
-이때, 이전 출력 단어의 임베딩($\hat{\mathbf{y}}_{i-1}$), 이전 시점의 디코더 은닉 상태($\mathbf{h}_{i-1}^{d}$), $i$ 시점의 문맥 벡터($\mathbf{c}_i$)가 함께 연산되어 최종 출력을 만든다.<br>
+이때, 이전 출력 단어의 임베딩 $\hat{\mathbf{y}}_{i-1}$ , 이전 시점의 디코더 은닉 상태 $\mathbf{h}_{i-1}^{d}$ , $i$ 시점의 문맥 벡터 $\mathbf{c}_i$ 가 함께 연산되어 최종 출력을 만든다.<br>

@@ -219,3 +219,88 @@ $$
 
 디코더에서는 attention 매커니즘을 통해 현재 시점의 디코더 은닉 상태($h_i^{d}$)를 계산한다.  <br>
 이때, 이전 출력 단어의 임베딩 $\hat{y_{i-1}}$ , 이전 시점의 디코더 은닉 상태 $\mathbf{h}_{i-1}^{d}$ , $i$ 시점의 문맥 벡터 $\mathbf{c}_i$ 가 함께 연산되어 최종 출력을 만든다.<br>
+
+# LSTM 실습
+
+## 사전 설치
+
+Mac 환경 기준
+
+```
+python -m venv venv
+source venv/bin/activate
+
+pip install requests
+pip install torch
+```
+
+## 실행 결과
+```
+python LSTM/LSTM.py
+/Users/esc/Desktop/NLP-Study/venv/lib/python3.13/site-packages/torch/_subclasses/functional_tensor.py:279: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  cpu = _conversion_method_template(device=torch.device("cpu"))
+Using device: cpu
+Downloading Tiny Shakespeare...
+Dataset length (chars): 1,115,394
+Vocab_size: 65
+Start training...
+[    1/50] train loss=5.284 (ppl=197.1) val loss=5.191 (ppl=179.6) elapsed=0.0 min
+ -> Saved checkpoint to char_rnn_tinyshakespeare.pt
+[    5/50] train loss=3.162 (ppl=23.6) val loss=3.161 (ppl=23.6) elapsed=0.0 min
+ -> Saved checkpoint to char_rnn_tinyshakespeare.pt
+[   10/50] train loss=2.460 (ppl=11.7) val loss=2.484 (ppl=12.0) elapsed=0.1 min
+ -> Saved checkpoint to char_rnn_tinyshakespeare.pt
+[   15/50] train loss=2.213 (ppl=9.1) val loss=2.330 (ppl=10.3) elapsed=0.1 min
+ -> Saved checkpoint to char_rnn_tinyshakespeare.pt
+[   20/50] train loss=2.134 (ppl=8.4) val loss=2.247 (ppl=9.5) elapsed=0.1 min
+ -> Saved checkpoint to char_rnn_tinyshakespeare.pt
+[   25/50] train loss=2.058 (ppl=7.8) val loss=2.127 (ppl=8.4) elapsed=0.1 min
+ -> Saved checkpoint to char_rnn_tinyshakespeare.pt
+[   30/50] train loss=1.992 (ppl=7.3) val loss=2.058 (ppl=7.8) elapsed=0.2 min
+ -> Saved checkpoint to char_rnn_tinyshakespeare.pt
+[   35/50] train loss=1.944 (ppl=7.0) val loss=2.057 (ppl=7.8) elapsed=0.2 min
+ -> Saved checkpoint to char_rnn_tinyshakespeare.pt
+[   40/50] train loss=1.903 (ppl=6.7) val loss=1.957 (ppl=7.1) elapsed=0.2 min
+ -> Saved checkpoint to char_rnn_tinyshakespeare.pt
+[   45/50] train loss=1.841 (ppl=6.3) val loss=1.989 (ppl=7.3) elapsed=0.3 min
+[   50/50] train loss=1.852 (ppl=6.4) val loss=1.935 (ppl=6.9) elapsed=0.3 min
+ -> Saved checkpoint to char_rnn_tinyshakespeare.pt
+
+=== Sample (temperature=0.8) ===
+ROMEO:
+Inate hat what with gold mad teake thysan of the congue make with that in the gactor
+Gove your to con, so play is in he good was it my like from and ae to mad,
+Litus conto:
+And thruse ass these you chatrance, the nother with many be not thou ind eastaing love preak
+IS am if partions.
+
+LADY CLANUS:
+I ameored of ever from these, atchin's to by a crose canges lan,
+Will so seat, I make and duself heave not we hearl for on their thou knewer good by not bother for you so theer requame feat blust death
+
+=== Sample (temperature=1.2) ===
+JULIET:
+Sill: erle's braid france's liker:
+Have a nobehings sence, annus,
+Whoy carl then no maders Romf stake-
+Firt;
+For crumpath,
+Lore loves untobre istorn a the ble my swell
+I Land that minew---hat hame of the shale
+If whild luch our reptioou tare withy do in af exarcet offece,
+Ed allm my we gringleo:
+Mood refting the with mad andreseren, andswit not
+Anesy of Polier of jeve, forthy live thy wity night!
+
+Norsevens pria?
+
+DUKE V:
+Comily.
+
+GLOUCESTER:
+You wen!
+And briJtetmengme.
+
+GASTEM:
+You leassth beti
+```

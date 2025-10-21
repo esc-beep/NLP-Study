@@ -278,3 +278,94 @@ RNN Sequence Classification 아이디어와 Bidirectional RNNs 아이디어를 �
 - 정방향 RNN (RNN 1): 문장을 끝까지($x_n$) 읽고 마지막 은닉 상태($\vec{h}_n$)를 가져온다.
 - 역방향 RNN (RNN 2): 문장을 거꾸로 끝까지($x_1$) 읽고 (역방향의) 마지막 은닉 상태($\bar{h}_1$)를 가져온다.
 - 두 벡터($\vec{h}_n$와 $\bar{h}_1$)를 하나로 이어 붙여 결합된 벡터(문장 전체의 앞뒤 정보를 모두 요약한)를 FFN/소프트맥스에 넣어 최종 분류를 수행한다.
+
+# RNN 실습
+
+## 사전 설치
+
+Mac 환경 기준
+
+```
+python -m venv venv
+source venv/bin/activate
+
+pip install requests
+pip install torch
+```
+
+## 실행 결과
+```
+python RNN/RNN.py 
+/Users/esc/Desktop/NLP-Study/venv/lib/python3.13/site-packages/torch/_subclasses/functional_tensor.py:279: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  cpu = _conversion_method_template(device=torch.device("cpu"))
+Using device: cpu
+Downloading Tiny Shakespeare...
+Dataset length (chars): 1,115,394
+Vocab_size: 65
+Start training...
+[    1/50] train loss=3.600 (ppl=36.6) val loss=3.643 (ppl=38.2) elapsed=0.0 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+[    5/50] train loss=2.617 (ppl=13.7) val loss=2.652 (ppl=14.2) elapsed=0.0 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+[   10/50] train loss=2.274 (ppl=9.7) val loss=2.350 (ppl=10.5) elapsed=0.0 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+[   15/50] train loss=2.118 (ppl=8.3) val loss=2.151 (ppl=8.6) elapsed=0.0 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+[   20/50] train loss=2.032 (ppl=7.6) val loss=2.145 (ppl=8.5) elapsed=0.0 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+[   25/50] train loss=1.971 (ppl=7.2) val loss=2.093 (ppl=8.1) elapsed=0.0 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+[   30/50] train loss=1.917 (ppl=6.8) val loss=2.031 (ppl=7.6) elapsed=0.0 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+[   35/50] train loss=1.896 (ppl=6.7) val loss=1.997 (ppl=7.4) elapsed=0.1 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+[   40/50] train loss=1.819 (ppl=6.2) val loss=1.964 (ppl=7.1) elapsed=0.1 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+[   45/50] train loss=1.774 (ppl=5.9) val loss=1.926 (ppl=6.9) elapsed=0.1 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+[   50/50] train loss=1.788 (ppl=6.0) val loss=1.891 (ppl=6.6) elapsed=0.1 min
+ -> Saved checkpoint to char_rnn_simple_rnn_tinyshakespeare.pt
+
+=== Sample (temperature=0.8) ===
+ROMEO:
+Go the kings and for thather:
+I will; neit by thee herd broner sorr, the thee;
+To fent, my love of your gone, is mades,
+That marge, and throwe, I sir,
+The wored,
+And some a parsa
+tese agatess yought the hope I am is my race all un-werly,
+The headre to but that hood in thear meates good?
+
+First me but fathere The ear no seeds, who cordswe,
+Is the fathed, sirves stricher and some of thou the furthe
+
+I not belding.
+
+POLIXABUTH:
+I to faited: bold hast necong nevees,
+To besold are of the hand Jead th
+
+=== Sample (temperature=1.2) ===
+JULIET:
+
+Till niar your a seaine? by abe and trighantmenmers a prain'
+
+Catives,
+To begoleyble;
+Ihiciciof ne I heavy youe
+Whithem's Ilaffersusin, qocQereshinge,
+Whicelaredo itarhall, it not knry's to bmateo, to dmund
+'ell beesswicls ase to ye'd my baus Right art theyee; Puti' the itun:
+Eomsirl of or swall,
+Whence,
+And, swor.
+
+MAPGmLI ho, and mowmito, He gidu, Ynockssunveit,
+The Nath bith have lord, That zell nerthan thou ussy un:
+No,
+The consub!
+He ro you nee:
+I lifes Bener't,
+The I known wail nevice. te
+```

@@ -7,4 +7,5 @@
 2. [N-gram](n-gram/README.md)
 3. [RNN](RNN/README.md)
 4. [LSTM](LSTM/README.md)
-5. [Embeddings](embeddints/README.md)
+5. [Embeddings](embeddings/README.md)
+6. [Transformer](Transformer/README.md)
